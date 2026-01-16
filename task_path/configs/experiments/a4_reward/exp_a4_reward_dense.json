@@ -1,0 +1,78 @@
+{
+  "name": "exp_a4_reward_dense",
+  "description": "A4.3 - \u5956\u52b1\u51fd\u6570\u5bf9\u6bd4 - Dense\uff08\u7a20\u5bc6\u5956\u52b1\uff09",
+  "env": {
+    "task": {
+      "dt": 0.05,
+      "max_episode_steps": 400,
+      "success_threshold": 0.3
+    },
+    "robot": {
+      "mass": 0.5,
+      "max_thrust": 5.0,
+      "drag_coeff": 0.5
+    },
+    "sensor": {
+      "num_lidar_rays": 8,
+      "lidar_range": 3.0,
+      "safety_margin": 0.1
+    },
+    "map": {
+      "x_min": -15.0,
+      "x_max": 15.0,
+      "y_min": -15.0,
+      "y_max": 15.0,
+      "ocean_current": {
+        "enabled": false,
+        "type": "uniform",
+        "config": {
+          "velocity": [
+            0.0,
+            0.0
+          ],
+          "strength": 0.0
+        }
+      },
+      "static_obstacles": {
+        "num_obstacles": 10,
+        "min_size": 0.3,
+        "max_size": 0.8,
+        "obstacle_type": "circle"
+      },
+      "dynamic_obstacles": {
+        "num_obstacles": 0
+      }
+    },
+    "reward": {
+      "progress_weight": 2.0,
+      "action_cost_weight": 0.01,
+      "obstacle_penalty_weight": 1.0,
+      "collision_penalty": -10.0,
+      "success_reward": 10.0,
+      "obstacle_danger_radius": 0.5,
+      "step_penalty_weight": 0.01
+    }
+  },
+  "algorithm": {
+    "sac": {
+      "learning_rate": 0.0003,
+      "buffer_size": 1000000,
+      "learning_starts": 10000,
+      "batch_size": 256,
+      "tau": 0.005,
+      "gamma": 0.99,
+      "train_freq": 1,
+      "gradient_steps": 1,
+      "ent_coef": "auto"
+    }
+  },
+  "training": {
+    "total_timesteps": 500000,
+    "seed": 42,
+    "eval_freq": 10000,
+    "n_eval_episodes": 10,
+    "checkpoint_freq": 50000,
+    "log_interval": 4,
+    "n_envs": 8
+  }
+}

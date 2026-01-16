@@ -1,0 +1,79 @@
+{
+  "name": "exp_a1_l3_ppo",
+  "description": "A1 - L3-Hard\u73af\u5883 + PPO\u7b97\u6cd5",
+  "env": {
+    "task": {
+      "dt": 0.05,
+      "max_episode_steps": 600,
+      "success_threshold": 0.3
+    },
+    "reward": {
+      "progress_weight": 10.0,
+      "action_cost_weight": 0.1,
+      "obstacle_penalty_weight": 10.0,
+      "collision_penalty": -50.0,
+      "success_reward": 100.0,
+      "obstacle_danger_radius": 0.5,
+      "step_penalty_weight": 0.1
+    },
+    "robot": {
+      "mass": 0.5,
+      "max_thrust": 5.0,
+      "drag_coeff": 0.5
+    },
+    "sensor": {
+      "num_lidar_rays": 8,
+      "lidar_range": 3.0,
+      "safety_margin": 0.1
+    },
+    "map": {
+      "x_min": -20.0,
+      "x_max": 20.0,
+      "y_min": -20.0,
+      "y_max": 20.0,
+      "ocean_current": {
+        "enabled": true,
+        "type": "uniform",
+        "config": {
+          "velocity": [
+            0.5,
+            0.0
+          ],
+          "strength": 1.0
+        }
+      },
+      "static_obstacles": {
+        "num_obstacles": 15,
+        "min_size": 0.3,
+        "max_size": 0.9,
+        "obstacle_type": "circle"
+      },
+      "dynamic_obstacles": {
+        "num_obstacles": 0
+      }
+    }
+  },
+  "algorithm": {
+    "ppo": {
+      "learning_rate": 0.0003,
+      "n_steps": 4096,
+      "batch_size": 64,
+      "n_epochs": 10,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "clip_range": 0.2,
+      "ent_coef": 0.0,
+      "vf_coef": 0.5,
+      "max_grad_norm": 0.5
+    }
+  },
+  "training": {
+    "total_timesteps": 500000,
+    "seed": 42,
+    "eval_freq": 10000,
+    "n_eval_episodes": 10,
+    "checkpoint_freq": 50000,
+    "log_interval": 4,
+    "n_envs": 4
+  }
+}
